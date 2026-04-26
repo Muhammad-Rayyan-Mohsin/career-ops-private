@@ -1,25 +1,9 @@
-# Private fork of career-ops — keeps user-layer files (cv.md, profile.yml, etc.)
-# in the repo so the daily scan routine can read them.
-
-# OS / editor
-node_modules/
-.DS_Store
-*.mov
-*.mp4
-package-lock.json
-
-# Local-only Claude Code state
-.claude/settings.local.json
-.claude/memory/
-.omc/state/
-**/.omc/state/
-
-# Update system internal state
-.update-lock
-.update-dismissed
-.resolved-prompt-*
-
-# Generated output (per-run, not source)
+# Personal data (user fills these)
+data/applications.md
+data/pipeline.md
+data/scan-history.tsv
+reports/*.md
+!reports/.gitkeep
 output/*
 !output/.gitkeep
 batch/logs/*
@@ -30,14 +14,24 @@ batch/tracker-additions/*.tsv
 !batch/tracker-additions/.gitkeep
 jds/*
 !jds/.gitkeep
+
+# User config and customization (never auto-updated)
+config/profile.yml
+portals.yml
+modes/_profile.md
+.update-dismissed
+.update-lock
+
+# Generated
+.resolved-prompt-*
+node_modules/
+
+# OS
+.DS_Store
+*.mov
+*.mp4
+
+# Claude Code local
+.claude/settings.local.json
+.claude/memory/
 career-dashboard
-
-# Local-only application tracker (user edits this on their machine)
-data/applications.md
-
-# Secrets — never commit
-.env
-.env.*
-*.pem
-*.key
-secrets/
