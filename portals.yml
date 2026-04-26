@@ -1,0 +1,520 @@
+# Portal Scanner Configuration
+# Used by /career-ops scan to discover new offers automatically.
+#
+# Strategy (3 levels):
+#   1. Playwright → careers_url of each company (real-time, reliable)
+#   2. Greenhouse API → structured JSON (fast, Greenhouse-only)
+#   3. WebSearch with site: filters (broad discovery, may be stale)
+#
+# IMPORTANT: Each company in tracked_companies MUST have careers_url.
+#
+# HOW TO CUSTOMIZE:
+#   1. Copy this file to portals.yml in the project root
+#   2. Edit title_filter.positive with YOUR target role keywords
+#   3. Add/remove companies in tracked_companies
+#   4. Adjust search_queries for your preferred job boards
+#   5. Set enabled: false on companies you don't care about
+
+# -- Title filter --
+# The scanner uses these keywords to decide if a title is relevant.
+# At least 1 positive must match AND 0 negatives must match (case-insensitive).
+
+title_filter:
+  positive:
+    # User's target roles — UAE focus, AI/ML/agentic/full-stack-AI
+    - "AI"
+    - "ML"
+    - "LLM"
+    - "Agent"
+    - "Agentic"
+    - "GenAI"
+    - "Generative AI"
+    - "NLP"
+    - "LLMOps"
+    - "MLOps"
+    - "Computer Vision"
+    - "Voice AI"
+    - "Conversational AI"
+    - "RAG"
+    # -- Engineering roles --
+    - "Software Engineer"
+    - "Backend Engineer"
+    - "Full-Stack"
+    - "Full Stack"
+    - "Platform Engineer"
+    - "Solutions Architect"
+    - "Solutions Engineer"
+    - "Forward Deployed"
+    - "Deployed Engineer"
+    - "Customer Engineer"
+    - "Integration Engineer"
+    - "Applied AI"
+    - "Applied Scientist"
+    # -- Automation / Growth eng --
+    - "Automation"
+    - "GTM Engineer"
+    - "Growth Engineer"
+    - "Internal Tools"
+    # -- Junior level OK (final-year undergrad) --
+    - "Junior AI"
+    - "Junior ML"
+    - "Graduate"
+    - "Associate"
+  negative:
+    # We're junior-friendly — only block roles that don't fit the stack at all
+    - "Senior Director"
+    - "VP "
+    - "Head of"
+    - ".NET"
+    - "Java "
+    - "iOS"
+    - "Android"
+    - "PHP"
+    - "Ruby on Rails"
+    - "Embedded"
+    - "Firmware"
+    - "FPGA"
+    - "ASIC"
+    - "Blockchain"
+    - "Web3"
+    - "Crypto"
+    - "Salesforce Admin"
+    - "SAP "
+    - "Oracle EBS"
+    - "Mainframe"
+    - "COBOL"
+    - "Sales Engineer"  # confused with Solutions Engineer; remove if false negs
+  seniority_boost:
+    # These prefixes add relevance but are not required
+    - "Senior"
+    - "Staff"
+    - "Principal"
+    - "Lead"
+    - "Head"
+    - "Director"
+
+# -- Search queries --
+# Each query triggers a WebSearch. Use site: to filter by portal.
+# The scanner extracts title, URL, and company from results.
+
+search_queries:
+  # ============================================================
+  # UAE-FIRST QUERIES (primary target market)
+  # ============================================================
+
+  # -- LinkedIn UAE-located AI/ML --
+  - name: LinkedIn UAE — AI Engineer
+    query: 'site:linkedin.com/jobs "AI Engineer" OR "Machine Learning Engineer" "Dubai" OR "Abu Dhabi" OR "United Arab Emirates"'
+    enabled: true
+
+  - name: LinkedIn UAE — LLM/Agentic
+    query: 'site:linkedin.com/jobs "LLM" OR "Agentic" OR "GenAI" "Dubai" OR "Abu Dhabi" OR "UAE"'
+    enabled: true
+
+  - name: LinkedIn UAE — Applied AI / FDE
+    query: 'site:linkedin.com/jobs "Applied AI" OR "Forward Deployed" OR "Solutions Engineer" "Dubai" OR "Abu Dhabi" OR "UAE"'
+    enabled: true
+
+  # -- Bayt + GulfTalent (UAE-native job boards) --
+  - name: Bayt — AI/ML
+    query: 'site:bayt.com "AI Engineer" OR "Machine Learning" OR "Data Scientist" UAE OR Dubai OR "Abu Dhabi"'
+    enabled: true
+
+  - name: GulfTalent — AI/ML
+    query: 'site:gulftalent.com "AI" OR "Machine Learning" OR "LLM" Dubai OR "Abu Dhabi"'
+    enabled: true
+
+  - name: Naukrigulf — AI/ML
+    query: 'site:naukrigulf.com "AI Engineer" OR "Machine Learning" UAE OR Dubai OR "Abu Dhabi"'
+    enabled: true
+
+  # -- Greenhouse / Ashby / Lever filtered to UAE --
+  - name: Greenhouse — UAE
+    query: 'site:job-boards.greenhouse.io OR site:boards.greenhouse.io "AI" OR "ML" OR "Engineer" "Dubai" OR "Abu Dhabi" OR "UAE"'
+    enabled: true
+
+  - name: Ashby — UAE
+    query: 'site:jobs.ashbyhq.com "AI" OR "ML" OR "Engineer" "Dubai" OR "Abu Dhabi" OR "UAE"'
+    enabled: true
+
+  - name: Lever — UAE
+    query: 'site:jobs.lever.co "AI" OR "ML" OR "Engineer" "Dubai" OR "Abu Dhabi" OR "UAE"'
+    enabled: true
+
+  - name: Workable — UAE
+    query: 'site:apply.workable.com "AI" OR "ML" "Dubai" OR "Abu Dhabi" OR "UAE"'
+    enabled: true
+
+  # -- UAE govt & sovereign AI ecosystem (G42/Mubadala/etc.) --
+  - name: G42 ecosystem
+    query: '"G42" OR "Core42" OR "Inception" OR "Presight" "AI" OR "ML" jobs OR careers OR "Engineer"'
+    enabled: true
+
+  - name: UAE sovereign AI / govt
+    query: '"Mubadala" OR "ADNOC" OR "EDGE" OR "TII" OR "Technology Innovation Institute" "AI" OR "ML" jobs OR careers'
+    enabled: true
+
+  # -- UAE startups (Careem, Tabby, Tamara, e&, etc.) --
+  - name: UAE/MENA tech unicorns
+    query: '"Careem" OR "Tabby" OR "Tamara" OR "noon" OR "Property Finder" "AI" OR "ML" OR "Engineer" jobs OR careers'
+    enabled: true
+
+  # -- DIFC/ADGM fintech UAE --
+  - name: UAE fintech AI
+    query: '"DIFC" OR "ADGM" OR "Dubai" "AI Engineer" OR "ML" fintech OR bank careers'
+    enabled: true
+
+  # ============================================================
+  # GLOBAL REMOTE QUERIES (secondary — companies hiring remote
+  # from anywhere, including UAE)
+  # ============================================================
+
+  - name: Ashby — AI Engineer (remote)
+    query: 'site:jobs.ashbyhq.com "AI Engineer" OR "LLM Engineer" OR "Forward Deployed" remote'
+    enabled: true
+
+  - name: Ashby — Agentic (remote)
+    query: 'site:jobs.ashbyhq.com "Agentic" OR "AI Agent" OR "Applied AI" remote'
+    enabled: true
+
+  - name: Greenhouse — AI Engineer (remote)
+    query: 'site:job-boards.greenhouse.io "AI Engineer" OR "LLM" OR "Agentic" remote'
+    enabled: true
+
+  - name: Greenhouse — FDE / Solutions (remote)
+    query: 'site:job-boards.greenhouse.io "Solutions Architect" OR "Forward Deployed" AI remote'
+    enabled: true
+
+  - name: Lever — AI roles (remote)
+    query: 'site:jobs.lever.co "AI Engineer" OR "Agentic" OR "LLMOps" remote'
+    enabled: true
+
+  - name: Wellfound — AI engineer (remote)
+    query: 'site:wellfound.com "AI Engineer" OR "ML Engineer" OR "Applied AI" remote'
+    enabled: true
+
+  - name: FDE & Deployed Engineer — All portals
+    query: '"Forward Deployed Engineer" OR "Deployed Engineer" AI site:job-boards.greenhouse.io OR site:jobs.ashbyhq.com OR site:jobs.lever.co'
+    enabled: true
+
+  - name: RemoteFront — AI & Automation
+    query: 'site:remotefront.com "AI Engineer" OR "ML Engineer" OR "Applied AI" remote'
+    enabled: true
+
+# -- Tracked companies --
+# Companies whose career pages are checked directly.
+# scan_method: playwright (default), websearch, greenhouse_api
+# For Greenhouse companies, add api: field for faster structured JSON access.
+
+tracked_companies:
+
+  # ============================================================
+  # UAE — G42 / Mubadala AI ecosystem (PRIMARY)
+  # ============================================================
+
+  - name: G42
+    careers_url: https://www.g42.ai/careers
+    scan_method: websearch
+    scan_query: 'site:g42.ai/careers OR "g42" "AI Engineer" OR "ML" OR "Engineer" jobs UAE'
+    notes: "Abu Dhabi. Mubadala-backed AI conglomerate. Parent of Core42, Presight, Inception, M42."
+    enabled: true
+
+  - name: Core42
+    careers_url: https://core42.ai/careers
+    scan_method: websearch
+    scan_query: 'site:core42.ai/careers OR "core42" "AI" OR "ML" OR "Engineer" jobs'
+    notes: "Abu Dhabi. G42 cloud + sovereign AI infra arm. Trained Jais (Arabic LLM)."
+    enabled: true
+
+  - name: Presight AI
+    careers_url: https://www.presight.ai/careers
+    scan_method: websearch
+    scan_query: 'site:presight.ai/careers OR "presight" "AI" OR "Data" OR "Engineer" jobs UAE'
+    notes: "Abu Dhabi. G42 big-data analytics arm, ADX-listed. Government & enterprise AI."
+    enabled: true
+
+  - name: Inception (G42)
+    careers_url: https://www.inceptionai.ai/careers
+    scan_method: websearch
+    scan_query: '"Inception" "g42" OR "AI Lab" "Engineer" OR "Researcher" UAE jobs'
+    notes: "Abu Dhabi. G42 applied AI lab. Builds Jais and other foundation models."
+    enabled: true
+
+  - name: M42
+    careers_url: https://m42.ae/careers
+    scan_method: websearch
+    scan_query: 'site:m42.ae/careers OR "m42" "AI" OR "ML" OR "Engineer" jobs UAE'
+    notes: "Abu Dhabi. G42 + Mubadala health-AI joint venture."
+    enabled: true
+
+  - name: TII (Technology Innovation Institute)
+    careers_url: https://www.tii.ae/careers
+    scan_method: websearch
+    scan_query: 'site:tii.ae/careers OR "Technology Innovation Institute" "AI" OR "ML" OR "Researcher" jobs'
+    notes: "Abu Dhabi. ATRC research arm. Built Falcon LLM family. Strong research roles."
+    enabled: true
+
+  - name: MBZUAI
+    careers_url: https://mbzuai.ac.ae/careers
+    scan_method: websearch
+    scan_query: 'site:mbzuai.ac.ae OR "MBZUAI" "AI" "Researcher" OR "Engineer" jobs'
+    notes: "Mohamed bin Zayed University of AI. Research engineer / RA roles."
+    enabled: true
+
+  # ============================================================
+  # UAE — Govt / sovereign / large state-owned AI buyers
+  # ============================================================
+
+  - name: ADNOC
+    careers_url: https://careers.adnoc.ae
+    scan_method: websearch
+    scan_query: 'site:careers.adnoc.ae "AI" OR "ML" OR "Data" OR "Engineer"'
+    notes: "Abu Dhabi National Oil Company. Massive AI/data org for upstream + downstream."
+    enabled: true
+
+  - name: EDGE Group
+    careers_url: https://www.edgegroup.ae/careers
+    scan_method: websearch
+    scan_query: 'site:edgegroup.ae/careers "AI" OR "ML" OR "Engineer"'
+    notes: "Abu Dhabi defence + advanced tech conglomerate. Many subsidiaries hiring AI."
+    enabled: true
+
+  - name: Mubadala
+    careers_url: https://www.mubadala.com/en/careers
+    scan_method: websearch
+    scan_query: 'site:mubadala.com/en/careers "AI" OR "Technology" OR "Engineer"'
+    notes: "Abu Dhabi sovereign wealth fund. Backs G42, M42 etc."
+    enabled: true
+
+  - name: Khazna Data Centers
+    careers_url: https://www.khazna.ae/careers
+    scan_method: websearch
+    scan_query: 'site:khazna.ae/careers "Engineer" OR "AI" OR "Data Center"'
+    notes: "G42-affiliated UAE data-center operator. Infra-side roles."
+    enabled: true
+
+  # ============================================================
+  # UAE — Telcos, fintech, marketplaces, mobility
+  # ============================================================
+
+  - name: e& (formerly Etisalat)
+    careers_url: https://careers.eand.com
+    scan_method: websearch
+    scan_query: 'site:careers.eand.com "AI" OR "ML" OR "Engineer"'
+    notes: "Abu Dhabi. Largest UAE telco. Big Generative AI investments + data org."
+    enabled: true
+
+  - name: du (EITC)
+    careers_url: https://www.du.ae/about-us/careers
+    scan_method: websearch
+    scan_query: 'site:du.ae/about-us/careers "AI" OR "ML" OR "Engineer"'
+    notes: "Dubai. Second UAE telco. AI/data team."
+    enabled: true
+
+  - name: Careem
+    careers_url: https://www.careem.com/careers
+    scan_method: websearch
+    scan_query: 'site:careem.com/careers OR site:jobs.lever.co/careem "AI" OR "ML" OR "Engineer"'
+    notes: "Dubai. Uber-owned MENA super-app. Strong ML/data org."
+    enabled: true
+
+  - name: Tabby
+    careers_url: https://tabby.ai/careers
+    scan_method: websearch
+    scan_query: 'site:tabby.ai/careers OR site:jobs.ashbyhq.com/tabby "AI" OR "ML" OR "Engineer"'
+    notes: "Riyadh/Dubai. BNPL fintech unicorn. AI risk/credit roles."
+    enabled: true
+
+  - name: Tamara
+    careers_url: https://tamara.co/en/careers
+    scan_method: websearch
+    scan_query: 'site:tamara.co/en/careers "AI" OR "ML" OR "Engineer"'
+    notes: "Riyadh/Dubai. BNPL competitor to Tabby."
+    enabled: true
+
+  - name: noon
+    careers_url: https://www.noon.com/uae-en/careers
+    scan_method: websearch
+    scan_query: 'site:noon.com "AI" OR "ML" OR "Engineer" careers'
+    notes: "Dubai. Amazon-competitor MENA marketplace. Large ML org."
+    enabled: true
+
+  - name: Property Finder
+    careers_url: https://www.propertyfinder.ae/careers
+    scan_method: websearch
+    scan_query: 'site:propertyfinder.ae/careers "AI" OR "ML" OR "Engineer"'
+    notes: "Dubai. MENA leading real-estate platform. AI/ML data team."
+    enabled: true
+
+  - name: Bayzat
+    careers_url: https://bayzat.com/careers
+    scan_method: websearch
+    scan_query: 'site:bayzat.com/careers "AI" OR "ML" OR "Engineer"'
+    notes: "Dubai. HR + insurance SaaS. AI/automation team."
+    enabled: true
+
+  - name: Talabat
+    careers_url: https://www.talabat.com/careers
+    scan_method: websearch
+    scan_query: 'site:talabat.com/careers "AI" OR "ML" OR "Engineer"'
+    notes: "Dubai. Delivery Hero-owned MENA food-delivery leader."
+    enabled: true
+
+  - name: Kitopi
+    careers_url: https://kitopi.com/careers
+    scan_method: websearch
+    scan_query: 'site:kitopi.com/careers "AI" OR "ML" OR "Engineer"'
+    notes: "Dubai. Cloud-kitchen unicorn. AI/operations roles."
+    enabled: true
+
+  - name: Fetchr
+    careers_url: https://fetchr.us/careers
+    scan_method: websearch
+    scan_query: 'site:fetchr.us/careers "AI" OR "ML" OR "Engineer"'
+    notes: "Dubai. AI-driven last-mile logistics."
+    enabled: true
+
+  - name: Yango
+    careers_url: https://yango.com/careers
+    scan_method: websearch
+    scan_query: 'site:yango.com/careers "AI" OR "ML" OR "Engineer" Dubai'
+    notes: "Dubai. Yandex's ride-hailing/logistics arm in MENA."
+    enabled: true
+
+  - name: First Abu Dhabi Bank (FAB)
+    careers_url: https://careers.bankfab.com
+    scan_method: websearch
+    scan_query: 'site:careers.bankfab.com "AI" OR "ML" OR "Data" OR "Engineer"'
+    notes: "Abu Dhabi. Largest UAE bank. Big AI/data org."
+    enabled: true
+
+  - name: Emirates NBD
+    careers_url: https://careers.emiratesnbd.com
+    scan_method: websearch
+    scan_query: 'site:careers.emiratesnbd.com "AI" OR "ML" OR "Data" OR "Engineer"'
+    notes: "Dubai. UAE bank. Strong AI/digital team."
+    enabled: true
+
+  - name: Mashreq
+    careers_url: https://www.mashreqbank.com/uae/en/careers
+    scan_method: websearch
+    scan_query: 'site:mashreqbank.com "AI" OR "ML" OR "Data" OR "Engineer"'
+    notes: "Dubai. Digital-first bank with AI focus."
+    enabled: true
+
+  - name: ADIB (Abu Dhabi Islamic Bank)
+    careers_url: https://www.adib.ae/en/personal/about-us/careers
+    scan_method: websearch
+    scan_query: 'site:adib.ae "AI" OR "ML" OR "Engineer" careers'
+    notes: "Abu Dhabi. Islamic bank investing in AI."
+    enabled: true
+
+  - name: Emirates Group
+    careers_url: https://www.emiratesgroupcareers.com
+    scan_method: websearch
+    scan_query: 'site:emiratesgroupcareers.com "AI" OR "ML" OR "Data" OR "Engineer"'
+    notes: "Dubai. Emirates Airlines + dnata. Large AI/data org."
+    enabled: true
+
+  - name: Etihad Airways
+    careers_url: https://careers.etihad.com
+    scan_method: websearch
+    scan_query: 'site:careers.etihad.com "AI" OR "ML" OR "Data" OR "Engineer"'
+    notes: "Abu Dhabi. UAE national carrier. AI/data team."
+    enabled: true
+
+  - name: DP World
+    careers_url: https://careers.dpworld.com
+    scan_method: websearch
+    scan_query: 'site:careers.dpworld.com "AI" OR "ML" OR "Data" OR "Engineer"'
+    notes: "Dubai. Global ports + logistics giant. Big AI/data."
+    enabled: true
+
+  - name: Aldar Properties
+    careers_url: https://www.aldar.com/en/about-aldar/careers
+    scan_method: websearch
+    scan_query: 'site:aldar.com "AI" OR "ML" OR "Engineer"'
+    notes: "Abu Dhabi. Real estate developer with PropTech AI."
+    enabled: true
+
+  - name: Chalhoub Group
+    careers_url: https://careers.chalhoubgroup.com
+    scan_method: websearch
+    scan_query: 'site:careers.chalhoubgroup.com "AI" OR "ML" OR "Data" OR "Engineer"'
+    notes: "Dubai. Luxury retail conglomerate. CRM + AI roles."
+    enabled: true
+
+  - name: Astra Tech / Botim
+    careers_url: https://www.astratech.com/careers
+    scan_method: websearch
+    scan_query: 'site:astratech.com OR "Botim" "AI" OR "ML" OR "Engineer" UAE'
+    notes: "Dubai. G42-backed super-app holding company. Botim, Yango Pay etc."
+    enabled: true
+
+  - name: Bayut / dubizzle
+    careers_url: https://bayut.com/careers
+    scan_method: websearch
+    scan_query: 'site:bayut.com/careers OR "dubizzle" "AI" OR "ML" OR "Engineer"'
+    notes: "Dubai. Real estate + classifieds platform (EMPG / OLX MENA)."
+    enabled: true
+
+  - name: PureHealth
+    careers_url: https://www.purehealth.ae/careers
+    scan_method: websearch
+    scan_query: 'site:purehealth.ae "AI" OR "ML" OR "Data" OR "Engineer"'
+    notes: "Abu Dhabi. Largest UAE healthcare group."
+    enabled: true
+
+  # ============================================================
+  # UAE-friendly global AI labs (hire in MENA / sponsor UAE)
+  # ============================================================
+
+  - name: Anthropic
+    careers_url: https://job-boards.greenhouse.io/anthropic
+    api: https://boards-api.greenhouse.io/v1/boards/anthropic/jobs
+    notes: "Mostly US/UK. Has some remote roles."
+    enabled: true
+
+  - name: OpenAI
+    careers_url: https://openai.com/careers
+    scan_method: websearch
+    scan_query: 'site:openai.com/careers "Solutions" OR "Forward Deployed" OR "AI Engineer"'
+    notes: "Mostly US. Some EMEA roles."
+    enabled: true
+
+  - name: Microsoft UAE
+    careers_url: https://careers.microsoft.com
+    scan_method: websearch
+    scan_query: 'site:careers.microsoft.com "Dubai" OR "Abu Dhabi" "AI" OR "ML"'
+    notes: "Big UAE office. Strong AI hiring (G42 partnership in 2024)."
+    enabled: true
+
+  - name: Google MENA
+    careers_url: https://careers.google.com
+    scan_method: websearch
+    scan_query: 'site:careers.google.com "Dubai" OR "UAE" "AI" OR "ML"'
+    notes: "Dubai office. Limited eng hiring; Solutions/Customer Engineer roles."
+    enabled: true
+
+  - name: AWS MENA
+    careers_url: https://www.amazon.jobs
+    scan_method: websearch
+    scan_query: 'site:amazon.jobs "Dubai" OR "UAE" "AI" OR "ML" OR "Solutions"'
+    notes: "Dubai office. Solutions Architect / AI Specialist roles."
+    enabled: true
+
+  - name: NVIDIA MENA
+    careers_url: https://www.nvidia.com/en-us/about-nvidia/careers/
+    scan_method: websearch
+    scan_query: 'site:nvidia.com/careers "Dubai" OR "UAE" OR "Riyadh" "AI" OR "Solutions"'
+    notes: "Expanding in UAE post-G42 deal."
+    enabled: true
+
+  # ============================================================
+  # NOTE — Old EU-heavy company list disabled 2026-04-27 when
+  # user pivoted to UAE focus. The previous list (PolyAI, Parloa,
+  # Aleph Alpha, DeepL, Black Forest Labs, Helsing, Celonis,
+  # HelloFresh, N26, Trade Republic, etc.) is preserved in git
+  # history. To re-enable any company globally, uncomment +
+  # set enabled: true. Keep this section thin and UAE-relevant.
+  # ============================================================

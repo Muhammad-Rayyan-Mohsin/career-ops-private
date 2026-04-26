@@ -1,0 +1,135 @@
+# Career-Ops Profile — Muhammad Rayyan Mohsin
+# Source of truth for personal data across all modes. Auto-populated 2026-04-27.
+
+candidate:
+  full_name: "Muhammad Rayyan Mohsin"
+  email: "rayyan@clientacquisition.io"
+  email_personal: "mo.rayyan2002@gmail.com"
+  phone: "+92 333 9312013"
+  location: "Rawalpindi, Punjab, Pakistan"
+  linkedin: "linkedin.com/in/rayyan-mohsin-216713331"
+  portfolio_url: "https://portfolio-rayyan-opal.vercel.app"
+  github: "github.com/Muhammad-Rayyan-Mohsin"
+
+target_roles:
+  primary:
+    - "AI Engineer"
+    - "ML Engineer"
+    - "Applied AI / Forward Deployed Engineer"
+    - "Agentic Systems / LLMOps Engineer"
+  archetypes:
+    - name: "AI / LLM Engineer"
+      level: "Mid"
+      fit: "primary"
+    - name: "Agentic / Multi-Agent Systems"
+      level: "Mid"
+      fit: "primary"
+    - name: "AI Forward Deployed Engineer"
+      level: "Mid"
+      fit: "primary"
+    - name: "ML Research Engineer (Applied)"
+      level: "Mid/Junior"
+      fit: "secondary"
+    - name: "Computer Vision Engineer"
+      level: "Mid/Junior"
+      fit: "secondary"
+    - name: "Full-Stack Engineer (AI focus)"
+      level: "Mid"
+      fit: "secondary"
+    - name: "Data / ML Platform Engineer"
+      level: "Mid/Junior"
+      fit: "adjacent"
+    - name: "Growth / Ad-Tech Engineer"
+      level: "Mid"
+      fit: "adjacent"
+
+narrative:
+  headline: "AI Engineer building agentic systems at scale — currently shipping for 2,000+ clients."
+  exit_story: >
+    Final-year Data Science student at FAST-NUCES who skipped straight into production AI.
+    At Remoto Co. shipped MAB + RL + forecasting on Facebook ad data; now at ClientAcquisition.io
+    building TryCook.ai (full-stack AI OS on Mastra), The Truth Engine (agentic market research),
+    a Meta Ads Manager with a 40-tool LLM agent, and a Cold Email Engine with 177 tests on the
+    deliverability stack. Reproduced MAPO (arXiv:2401.06838) at laptop scale with a novel PAPC
+    improvement on the side. Looking for the next environment where agentic AI products
+    actually ship.
+  superpowers:
+    - "Production LLM agents — 40+ tools per agent, OAuth + Graph API + Redis + rate limits"
+    - "Full-stack AI: Next.js + TypeScript + Supabase + Mastra + LangGraph + BullMQ"
+    - "Real-time CV pipelines (YOLOv11 + AttentionBiLSTM + Python ↔ Node bridge)"
+    - "Reads NLP papers and reproduces them — MAPO + PAPC improvement"
+    - "Cold email deliverability infra: SPF/DKIM/DMARC, IMAP, HMAC tracking, sentiment classification"
+  proof_points:
+    - name: "Meta Ads Manager — 40-tool LLM agent"
+      url: "https://portfolio-rayyan-opal.vercel.app/"
+      hero_metric: "Autonomously runs Meta campaigns via natural language; OAuth + Redis + real-time analytics"
+    - name: "CAIO Intelligence (Mastra + LangGraph + BullMQ + Turso)"
+      url: "https://portfolio-rayyan-opal.vercel.app/"
+      hero_metric: "Full-stack intelligence dashboard for ticket analysis + client health + risk reporting"
+    - name: "Agent Memory — RAG over Reddit/YouTube/web"
+      url: "https://client-acquisition-assessment.vercel.app"
+      hero_metric: "Semantic dedup + vector RAG on GPT-4o-mini, Supabase RLS, PDF export"
+    - name: "Cold Email Engine"
+      url: "https://portfolio-rayyan-opal.vercel.app/"
+      hero_metric: "177 tests, SMTP/OAuth, HMAC tracking, IMAP reply classification, SPF/DKIM/DMARC"
+    - name: "Tencounterzz — Boxing punch detection"
+      url: "https://github.com/Muhammad-Rayyan-Mohsin/Tencounterzz"
+      hero_metric: "YOLOv11m + YOLOv8m-pose + AttentionBiLSTM real-time pipeline; classifies 6 punch types"
+    - name: "MAPO Reproduction & PAPC improvement"
+      url: "https://github.com/Muhammad-Rayyan-Mohsin/mapo-reproduction"
+      hero_metric: "Laptop-scale reproduction of arXiv:2401.06838 with novel improvement; 6-stage Python pipeline"
+    - name: "Multi-Armed Bandit + RL on Facebook ads (Remoto Co.)"
+      url: ""
+      hero_metric: "Lifted ad ROI on hierarchical marketing data; private/employer-owned"
+    - name: "Job Engine for German market (Remoto Co.)"
+      url: ""
+      hero_metric: "Aggregated job listings via APIs + search-AI agents into a unified discovery platform"
+  portfolio_live:
+    main: "https://portfolio-rayyan-opal.vercel.app"
+    data_portfolio: "https://professional-data-portfolio.vercel.app"
+    agent_memory_demo: "https://client-acquisition-assessment.vercel.app"
+
+compensation:
+  # User confirmed 2026-04-27: any comp targets, prefers remote, open to UAE relocation w/ sponsorship.
+  # No fixed walk-away — let market dictate. Defaults below sized for UAE AI-engineering market.
+  target_range: "AED 18K-35K/month (~USD 60K-115K/year) for UAE on-site / similar for remote"
+  target_range_remote_intl: "$60K-$110K USD remote-international"
+  currency: "AED (UAE) or USD (remote)"
+  minimum: ""    # open
+  location_flexibility: "Strongly prefer remote. Open to relocating to UAE with employment-visa sponsorship."
+
+location:
+  country: "Pakistan"
+  city: "Rawalpindi"
+  timezone: "PKT (UTC+5)"
+  visa_status: "Will need UAE employment-visa sponsorship if onsite. Currently no sponsorship anywhere."
+  preferred_destinations:
+    - "UAE (Dubai, Abu Dhabi)"   # primary on-site target
+  onsite_availability: "Available for UAE on-site upon employment-visa sponsorship and signed offer; not relocating before offer."
+  remote_overlap:
+    - "Full GCC / EMEA timezones"
+    - "Late-EU + Asia overlap (Singapore, India, KSA, Pakistan)"
+    - "Morning overlap with US East (~6-11 AM ET)"
+
+language:
+  modes_dir: "modes"   # default English. Switch to "modes/de" only for German JDs.
+
+constraints:
+  hard_no:
+    - "Roles requiring relocation before signed offer"
+    - "Unpaid trial-period work or 'project-based interviews' beyond 4-6 hours"
+    - "Roles with no AI/ML scope (pure full-stack only)"
+  caution:
+    - "Companies with no public engineering blog, GitHub, or product"
+    - "Job titles labeled 'ML/AI' that read as data analyst on inspection"
+    - "Pre-seed startups with no funding visible (revenue or VC)"
+
+automation:
+  cv_pdf_template: "templates/cv-template.html"
+  daily_scan_targets:
+    - "AI Engineer"
+    - "ML Engineer"
+    - "LLM Engineer"
+    - "Agentic AI Engineer"
+    - "Applied AI"
+    - "Forward Deployed Engineer"
